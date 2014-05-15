@@ -8,6 +8,9 @@ namespace BankOcrKata
 {
     public class PrintedDigit
     {
+        public const int DigitWidth = 3;
+        public const int DigitHeight = 3;
+
         public static readonly string[][] PrintedIntegerDefinitions = new string[][]
         {
             new string[] {
@@ -92,13 +95,13 @@ namespace BankOcrKata
         {
             if (inputRows == null)
                 throw new ArgumentNullException("inputRows");
-            if (inputRows.Count != 3 || inputRows.Any(row => !IsLegal(row)))
+            if (inputRows.Count != DigitHeight || inputRows.Any(row => !IsLegal(row)))
                 throw new BadDigitFormatException();
         }
 
         private static bool IsLegal(string inputRow)
         {
-            return inputRow.All(c => AllowedCharacters.Contains(c)) && inputRow.Length == 3;
+            return inputRow.All(c => AllowedCharacters.Contains(c)) && inputRow.Length == DigitWidth;
         }
     }
 }

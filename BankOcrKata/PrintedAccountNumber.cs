@@ -8,6 +8,8 @@ namespace BankOcrKata
 {
     public class PrintedAccountNumber
     {
+        public const int AccountNumberWidth = 9;
+
         public string DisplayValue { get; private set; }
 
         public PrintedAccountNumber(string[] accountNumberLines)
@@ -19,9 +21,22 @@ namespace BankOcrKata
             DisplayValue = String.Join(string.Empty, printDigits.Select(pd => pd.IntegerValue));
         }
 
-        private static List<PrintedDigit> ParseAccountNumberIntoDigits(string[] accountNumberLines)
+        private static IEnumerable<PrintedDigit> ParseAccountNumberIntoDigits(string[] accountNumberLines)
         {
-            return Enumerable.Range(0, 9).Select(digitNumber => new PrintedDigit(Enumerable.Range(0, 3).Select(row => accountNumberLines[row].Substring(digitNumber * 3, 3)).ToArray())).ToList();
+            var accountNumberDigitOffsets = Enumerable.Range(0, AccountNumberWidth);
+            return accountNumberDigitOffsets.Select(digitNumber => BuildDigitFor(digitNumber, accountNumberLines));
+        }
+
+        private static PrintedDigit BuildDigitFor(int digitOffset, string[] accountNumberLines)
+        {
+            var rowIndeces = Enumerable.Range(0, PrintedDigit.DigitHeight);
+            var digitRows = rowIndeces.Select(rowIndex => BuildRowFor(rowIndex, digitOffset, accountNumberLines));
+            return new PrintedDigit(digitRows.ToArray());
+        }
+
+        private static string BuildRowFor(int rowIndex, int digitOffset, string[] accountNumberLines)
+        {
+            return accountNumberLines[rowIndex].Substring(digitOffset * PrintedDigit.DigitWidth, PrintedDigit.DigitWidth);
         }
     }
 }
