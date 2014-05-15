@@ -41,7 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BadAccountNumberFormatException.cs" />
     <Compile Include="BadDigitFormatException.cs" />
+    <Compile Include="PrintedAccountNumber.cs" />
     <Compile Include="PrintedDigit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
