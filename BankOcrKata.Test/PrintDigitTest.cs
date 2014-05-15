@@ -11,6 +11,38 @@ namespace BankOcrKata.Test
     public class PrintedDigitTest
     {
         [TestClass]
+        public class Constructor
+        {
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void Throws_Exception_On_Entry_With_1_Row()
+            {
+                ExtendedAssert.Throws<BadDigitFormatException>(() => new PrintedDigit(new string[] { "___" }));
+            }
+
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void Throws_Exception_When_Passed_A_String_With_Two_Characters()
+            {
+                var inputRows = new string[] { "___", "| |", "|_|_" };
+
+                ExtendedAssert.Throws<BadDigitFormatException>(() => new PrintedDigit(inputRows));
+            }
+
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void Throws_Exception_When_Input_Strings_Contain_Invalid_Character()
+            {
+                var inputRows = new string[] { "___", "__a", "   " };
+
+                ExtendedAssert.Throws<BadDigitFormatException>(() => new PrintedDigit(inputRows));
+            }
+
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void Throws_Exception_On_Null_Argument()
+            {
+                ExtendedAssert.Throws<ArgumentNullException>(() => new PrintedDigit(null));
+            }
+        }
+
+        [TestClass]
         public class IntegerValue
         {
             [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
@@ -124,80 +156,6 @@ namespace BankOcrKata.Test
 
                 Assert.AreEqual<int>(9, digit.IntegerValue);
             }
-        }
-    }
-
-    public class PrintedDigit
-    {
-        public static readonly string[][] PrintedIntegerDefinitions = new string[][]
-        {
-            new string[] {
-                " _ ",
-                "| |",
-                "|_|"
-            },
-            new string[] { 
-                "   ", 
-                "  |",  
-                "  |" 
-            },
-            new string[] { 
-                " _ ",
-                " _|",  
-                "|_ " 
-            },
-            new string[] { 
-                " _ ",
-                " _|", 
-                " _|" 
-            },
-            new string[] {
-                "   ",                   
-                "|_|",
-                "  |"
-            },
-            new string[] {
-                " _ ",
-                "|_ ",
-                " _|",
-            },
-            new string[] {
-                " _ ",
-                "|_ ",
-                "|_|"
-            },
-            new string[] {
-                " _ ",
-                "  |",
-                "  |",
-            },
-            new string[] {
-                " _ ",
-                "|_|",
-                "|_|"
-            },
-            new string[] {
-                " _ ",
-                "|_|",
-                " _|"
-            }
-        };
-
-        public int IntegerValue { get; private set; }
-
-        public PrintedDigit(IList<string> inputRows)
-        {
-            var possibleDigits = Enumerable.Range(0, 10);
-            var possibleDigitsAsNullables = possibleDigits.Select(i => new int?(i));
-            var digitThatMatchesOrNull = possibleDigitsAsNullables.FirstOrDefault(nullableDigit => MatchesDefinedMatrixFor(nullableDigit.Value, inputRows));
-            IntegerValue = digitThatMatchesOrNull ?? -1;
-        }
-
-        private static bool MatchesDefinedMatrixFor(int digitToTry, IList<string> inputRows)
-        {
-            var actualMatrixForDigitToTry = PrintedIntegerDefinitions[digitToTry];
-            var rowIndeces = Enumerable.Range(0, actualMatrixForDigitToTry.Length);
-            return rowIndeces.All(i => actualMatrixForDigitToTry[i] == inputRows[i]);
         }
     }
 }
