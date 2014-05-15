@@ -23,6 +23,19 @@ namespace BankOcrKata.Test
                 };
                 ExtendedAssert.Throws<BadAccountNumberFormatException>(() => new PrintedAccountNumber(accountNumberLines));
             }
+
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void Throws_Bad_AccountNumberFormatException_When_A_Line_Has_28_Characters()
+            {
+                var accountNumberLines = new string[] 
+                {
+                      "    _  _     _  _  _  _  _ ",
+                      "  | _| _||_||_ |_   ||_||_| ",
+                      "  ||_  _|  | _||_|  ||_| _|",
+                };
+
+                ExtendedAssert.Throws<BadAccountNumberFormatException>(() => new PrintedAccountNumber(accountNumberLines));
+            }
         }
 
         [TestClass]

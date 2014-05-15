@@ -14,8 +14,7 @@ namespace BankOcrKata
 
         public PrintedAccountNumber(string[] accountNumberLines)
         {
-            if (accountNumberLines.Length != 3)
-                throw new BadAccountNumberFormatException();
+            ValidateOrThrow(accountNumberLines);
 
             var printDigits = ParseAccountNumberIntoDigits(accountNumberLines);
             DisplayValue = String.Join(string.Empty, printDigits.Select(pd => pd.IntegerValue));
@@ -37,6 +36,13 @@ namespace BankOcrKata
         private static string BuildRowFor(int rowIndex, int digitOffset, string[] accountNumberLines)
         {
             return accountNumberLines[rowIndex].Substring(digitOffset * PrintedDigit.DigitWidth, PrintedDigit.DigitWidth);
+        }
+
+        private static void ValidateOrThrow(string[] accountNumberLines)
+        {
+            if (accountNumberLines.Length != 3 || 
+                accountNumberLines.Any(line => line.Length != AccountNumberWidth * PrintedDigit.DigitWidth))
+                throw new BadAccountNumberFormatException();
         }
     }
 }
