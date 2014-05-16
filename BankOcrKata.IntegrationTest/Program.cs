@@ -32,6 +32,7 @@ namespace BankOcrKata.IntegrationTest
             VerifyFileOrThrow("OneColumnTooWide.txt", "Invalid account number file format.\r\n");
             VerifyFileOrThrow("WrongRowCount.txt", "Invalid account number file format.\r\n");
             VerifyFileOrThrow("WrongCharacterCountOnFourthLine.txt", "Invalid account number file format.\r\n");
+            VerifyFileOrThrow("AccountNumberWithIllegalCharacter.txt", "Invalid account number file format.\r\n");
         }
 
         public static void Verify_That_Wrong_Number_Of_Arguments_Results_In_Usage_Statement()

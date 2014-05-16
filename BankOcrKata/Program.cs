@@ -11,23 +11,33 @@ namespace BankOcrKata
 {
     class Program
     {
+        private const string DefaultFormatErrorMessage = "Invalid account number file format.";
+
         static void Main(string[] args)
         {
             if (args.Length != 1)
                 DieWithMessage("Invalid usage.  Usage: BankOcrKata.exe {filename}");
 
+            WriteAccountNumbersInFileToConsole(args[0]);
+        }
+
+        private static void WriteAccountNumbersInFileToConsole(string filePath)
+        {
             try
             {
-                var accountNumbers = RetrieveAccountNumbers(args[0]);
-                accountNumbers.ForEach(an => Console.WriteLine(an.DisplayValue));
+                RetrieveAccountNumbers(filePath).ForEach(accountNumber => Console.WriteLine(accountNumber.DisplayValue));
             }
             catch (BadAccountNumberFormatException)
             {
-                DieWithMessage("Invalid account number file format.");
+                DieWithMessage();
             }
             catch (InvalidAccountNumberFileException)
             {
-                DieWithMessage("Invalid account number file format.");
+                DieWithMessage();
+            }
+            catch (BadDigitFormatException)
+            {
+                DieWithMessage();
             }
         }
 
@@ -37,7 +47,7 @@ namespace BankOcrKata
             return repository.GetAccountNumbers().ToList();
         }
 
-        private static void DieWithMessage(string errorMessage)
+        private static void DieWithMessage(string errorMessage = DefaultFormatErrorMessage)
         {
             Console.WriteLine(errorMessage);
             Environment.Exit(1);
