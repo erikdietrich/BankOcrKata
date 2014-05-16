@@ -10,7 +10,7 @@ namespace BankOcrKata
     {
         static void Main(string[] args)
         {
-
+            Console.Write("111111111");
         }
     }
 }
