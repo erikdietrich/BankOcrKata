@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankOcrKata.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +36,8 @@ namespace BankOcrKata
 
         private static string BuildRowFor(int rowIndex, int digitOffset, string[] accountNumberLines)
         {
-            return accountNumberLines[rowIndex].Substring(digitOffset * PrintedDigit.DigitWidth, PrintedDigit.DigitWidth);
+            string row = accountNumberLines[rowIndex];
+            return row.Substring(digitOffset * PrintedDigit.DigitWidth, PrintedDigit.DigitWidth);
         }
 
         private static void ValidateOrThrow(string[] accountNumberLines)

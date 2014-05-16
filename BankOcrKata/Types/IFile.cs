@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankOcrKata
+namespace BankOcrKata.Types
 {
-    public class BadDigitFormatException : Exception
+    public interface IFile
     {
+        bool ExistsOnDisk();
+        string[] ReadAllLines();
     }
 }

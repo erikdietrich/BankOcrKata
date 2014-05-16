@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using BankOcrKata.Exceptions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace BankOcrKata.Test
 {
     [TestClass]
-    public class PrintAccountNumberTest
+    public class PrintedAccountNumberTest
     {
         [TestClass]
         public class Constructor

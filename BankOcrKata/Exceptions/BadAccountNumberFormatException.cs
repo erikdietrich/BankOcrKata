@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankOcrKata
+namespace BankOcrKata.Exceptions
 {
     public class BadAccountNumberFormatException : Exception
     {

@@ -36,6 +36,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Telerik.JustMock">
+      <HintPath>..\packages\JustMock.2014.1.1623.1\lib\Net35\Telerik.JustMock.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.JustMock.Container">
+      <HintPath>..\packages\JustMock.2014.1.1623.1\lib\Net35\Telerik.JustMock.Container.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -51,15 +57,19 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ExtendedAssert.cs" />
-    <Compile Include="PrintAccountNumberTest.cs" />
-    <Compile Include="PrintDigitTest.cs" />
+    <Compile Include="PrintedAccountNumberTest.cs" />
+    <Compile Include="PrintedDigitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AccountNumberRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BankOcrKata\BankOcrKata.csproj">
       <Project>{0380e894-a770-42df-94a0-19c603346679}</Project>
       <Name>BankOcrKata</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
