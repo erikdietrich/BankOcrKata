@@ -20,7 +20,7 @@ namespace BankOcrKata.Repositories
 
             _fileLines = file.ReadAllLines();
 
-            if (_fileLines.Length == 0 || _fileLines.Length % 4 != 0)
+            if (!AreFileLinesValid())
                 throw new InvalidAccountNumberFileException();
         }
 
@@ -28,6 +28,11 @@ namespace BankOcrKata.Repositories
         {
             for (int index = 0; index < _fileLines.Length; index += 4)
                 yield return new PrintedAccountNumber(_fileLines.Skip(index).Take(3).ToArray());
+        }
+
+        private bool AreFileLinesValid()
+        {
+            return _fileLines.Length > 0 && _fileLines.Length % 4 == 0 && _fileLines.All(fl => fl.Length == PrintedAccountNumber.AccountNumberWidth * PrintedDigit.DigitWidth);
         }
     }
 }

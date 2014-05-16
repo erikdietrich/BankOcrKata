@@ -25,6 +25,10 @@ namespace BankOcrKata
             {
                 DieWithMessage("Invalid account number file format.");
             }
+            catch (InvalidAccountNumberFileException)
+            {
+                DieWithMessage("Invalid account number file format.");
+            }
         }
 
         private static List<PrintedAccountNumber> RetrieveAccountNumbers(string filePath)

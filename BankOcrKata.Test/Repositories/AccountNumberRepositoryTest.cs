@@ -15,11 +15,24 @@ namespace BankOcrKata.Test.Repositories
     {
         private IFile File { get; set; }
 
+        private static readonly string[] FileLinesForAllOnes = new string[]
+        {
+            "                           ", 
+            "  |  |  |  |  |  |  |  |  |", 
+            "  |  |  |  |  |  |  |  |  |", 
+            "                           " 
+        };
+
+        private AccountNumberRepository Target { get; set; }
+
         [TestInitialize]
         public void BeforeEachTest()
         {
             File = Mock.Create<IFile>();
             File.Arrange(f => f.ExistsOnDisk()).Returns(true);
+            File.Arrange(f => f.ReadAllLines()).Returns(FileLinesForAllOnes);
+
+            Target = new AccountNumberRepository(File);
         }
 
         [TestClass]
@@ -36,6 +49,7 @@ namespace BankOcrKata.Test.Repositories
             [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
             public void Throws_Exception_When_File_Has_One_Line()
             {
+                File.Arrange(f => f.ReadAllLines()).Returns(new string[] { "                           " });
                 ExtendedAssert.Throws<InvalidAccountNumberFileException>(() => new AccountNumberRepository(File));
             }
         }
@@ -46,25 +60,13 @@ namespace BankOcrKata.Test.Repositories
             [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
             public void Returns_Account_Number_Of_All_Ones_For_Four_Line_File_Of_All_Ones()
             {
-                var fileLines = new string[]
-                {
-                    "                           ",
-                    "  |  |  |  |  |  |  |  |  |",
-                    "  |  |  |  |  |  |  |  |  |",
-                    string.Empty
-                };
-
-                File.Arrange(f => f.ReadAllLines()).Returns(fileLines);
-
-                var repository = new AccountNumberRepository(File);
-
-                var accountNumbers = repository.GetAccountNumbers();
+                var accountNumbers = Target.GetAccountNumbers();
 
                 Assert.AreEqual<string>("111111111", accountNumbers.First().DisplayValue);
             }
 
             [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
-            public void Returns_Two_Account_Numbers_For_8_Lines_With_Two_Numbers()
+            public void Returns_Two_Account_Numbers_For_8_Lines_With_Two_Numbers_With_Output_For_Second_Matching()
             {
                 var fileLines = new string[]
                 {
@@ -80,11 +82,31 @@ namespace BankOcrKata.Test.Repositories
 
                 File.Arrange(f => f.ReadAllLines()).Returns(fileLines);
 
-                var repository = new AccountNumberRepository(File);
+                Target = new AccountNumberRepository(File);
 
-                var accountNumbers = repository.GetAccountNumbers();
+                var accountNumbers = Target.GetAccountNumbers();
 
-                Assert.AreEqual<string>("111111111", accountNumbers.First().DisplayValue);
+                Assert.AreEqual<string>("222222222", accountNumbers.Skip(1).First().DisplayValue);
+            }
+
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void Throws_Exception_When_Spacing_Line_Is_Wrong_Length()
+            {
+                var fileLines = new string[]
+                {
+                    "                           ",
+                    "  |  |  |  |  |  |  |  |  |",
+                    "  |  |  |  |  |  |  |  |  |",
+                    "                          ",
+                    " _  _  _  _  _  _  _  _  _ ",
+                    " _| _| _| _| _| _| _| _| _|",
+                    "|_ |_ |_ |_ |_ |_ |_ |_ |_ ",
+                    "                           "
+                };
+
+                File.Arrange(f => f.ReadAllLines()).Returns(fileLines);
+
+                ExtendedAssert.Throws<InvalidAccountNumberFileException>(() => Target = new AccountNumberRepository(File));
             }
         }
     }

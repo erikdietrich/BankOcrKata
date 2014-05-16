@@ -20,13 +20,16 @@ namespace BankOcrKata.IntegrationTest
             VerifyFileOrThrow("allones.txt", "111111111\r\n");
             VerifyFileOrThrow("alltwos.txt", "222222222\r\n");
             VerifyFileOrThrow("TwoRows.txt", "111111111\r\n222222222\r\n");
+            VerifyFileOrThrow("SomeMiscellaneousNumbers.txt", "024685555\r\n123456789\r\n");
+            VerifyFileOrThrow("ZerosThroughNines.txt", GenerateZeroesThroughNines());
         }
 
         private static void VerifyErrorScenarios()
         {
             Verify_That_Wrong_Number_Of_Arguments_Results_In_Usage_Statement();
             VerifyFileOrThrow("OneColumnTooWide.txt", "Invalid account number file format.\r\n");
-            //VerifyFileOrThrow("WrongRowCount.txt", "Invalid account number file format.\r\n");
+            VerifyFileOrThrow("WrongRowCount.txt", "Invalid account number file format.\r\n");
+            VerifyFileOrThrow("WrongCharacterCountOnFourthLine.txt", "Invalid account number file format.\r\n");
         }
 
         public static void Verify_That_Wrong_Number_Of_Arguments_Results_In_Usage_Statement()
@@ -72,6 +75,15 @@ namespace BankOcrKata.IntegrationTest
 
                 ocrDataProcessor.WaitForExit();
             }
+        }
+        private static string GenerateZeroesThroughNines()
+        {
+            return string.Join(string.Empty, Enumerable.Range(0, 10).Select(i => GenerateRepeatingIntegerLine(i)));
+        }
+        private static string GenerateRepeatingIntegerLine(int digit)
+        {
+            string numbers = string.Join(string.Empty, Enumerable.Repeat(digit.ToString(), PrintedAccountNumber.AccountNumberWidth));
+            return string.Format("{0}\r\n", numbers);
         }
     }
 }
