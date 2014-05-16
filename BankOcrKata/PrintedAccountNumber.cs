@@ -11,14 +11,17 @@ namespace BankOcrKata
     {
         public const int AccountNumberWidth = 9;
 
-        public string DisplayValue { get; private set; }
+        private readonly IEnumerable<PrintedDigit> _printDigits;
+
+        public string DisplayValue { get { return String.Join(string.Empty, _printDigits.Select(pd => pd.IntegerValue)); } }
+
+        public bool IsValid  { get { return IsChecksumSatisfied(_printDigits); } }
 
         public PrintedAccountNumber(string[] accountNumberLines)
         {
             ValidateOrThrow(accountNumberLines);
 
-            var printDigits = ParseAccountNumberIntoDigits(accountNumberLines);
-            DisplayValue = String.Join(string.Empty, printDigits.Select(pd => pd.IntegerValue));
+            _printDigits = ParseAccountNumberIntoDigits(accountNumberLines);
         }
 
         private static IEnumerable<PrintedDigit> ParseAccountNumberIntoDigits(string[] accountNumberLines)
@@ -45,6 +48,17 @@ namespace BankOcrKata
             if (accountNumberLines.Length != 3 || 
                 accountNumberLines.Any(line => line.Length != AccountNumberWidth * PrintedDigit.DigitWidth))
                 throw new BadAccountNumberFormatException();
+        }
+
+        private static bool IsChecksumSatisfied(IEnumerable<PrintedDigit> printDigits)
+        {
+            var collection = printDigits.Reverse().ToArray();
+
+            int sum = 0;
+            for (int index = 0; index < AccountNumberWidth; index++)
+                sum += collection[index].IntegerValue * (index + 1);
+
+            return sum % 11 == 0;
         }
     }
 }

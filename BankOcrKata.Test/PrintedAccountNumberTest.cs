@@ -73,5 +73,69 @@ namespace BankOcrKata.Test
             }
 
         }
+
+        [TestClass]
+        public class IsValid
+        {
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void Is_True_For_All_Zeroes()
+            {
+                var accountNumberLines = new string[]
+                {
+                    " _  _  _  _  _  _  _  _  _ ",
+                    "| || || || || || || || || |",
+                    "|_||_||_||_||_||_||_||_||_|",
+                };
+
+                var accountNumber = new PrintedAccountNumber(accountNumberLines);
+
+                Assert.IsTrue(accountNumber.IsValid);
+            }
+
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void Is_False_For_All_Zeroes_And_A_One()
+            {
+                var accountNumberLines = new string[]
+                {
+                    " _  _  _  _  _  _  _  _    ",
+                    "| || || || || || || || |  |",
+                    "|_||_||_||_||_||_||_||_|  |",
+                };
+
+                var accountNumber = new PrintedAccountNumber(accountNumberLines);
+
+                Assert.IsFalse(accountNumber.IsValid);
+            }
+
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void IsTrue_For_All_Ones_With_A_Zero()
+            {
+                var accountNumberLines = new string[]
+                {
+                    "                         _ ",
+                    "  |  |  |  |  |  |  |  || |",
+                    "  |  |  |  |  |  |  |  ||_|",
+                };
+
+                var accountNumber = new PrintedAccountNumber(accountNumberLines);
+
+                Assert.IsTrue(accountNumber.IsValid);
+            }
+
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void Is_True_For_Zeroes_Then_Five_One()
+            {
+                var accountNumberLines = new string[]
+                {
+                    " _  _  _  _  _  _  _  _    ",
+                    "| || || || || || || ||_   |",
+                    "|_||_||_||_||_||_||_| _|  |",
+                };
+
+                var accountNumber = new PrintedAccountNumber(accountNumberLines);
+
+                Assert.IsTrue(accountNumber.IsValid);
+            }
+        }
     }
 }
