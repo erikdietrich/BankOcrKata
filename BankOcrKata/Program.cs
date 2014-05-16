@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BankOcrKata.DataAccess;
+using BankOcrKata.Exceptions;
+using BankOcrKata.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +13,30 @@ namespace BankOcrKata
     {
         static void Main(string[] args)
         {
-            Console.Write("111111111");
+            if (args.Length != 1)
+                DieWithMessage("Invalid usage.  Usage: BankOcrKata.exe {filename}");
+
+            try
+            {
+                var accountNumbers = RetrieveAccountNumbers(args[0]);
+                accountNumbers.ForEach(an => Console.WriteLine(an.DisplayValue));
+            }
+            catch (BadAccountNumberFormatException)
+            {
+                DieWithMessage("Invalid account number file format.");
+            }
+        }
+
+        private static List<PrintedAccountNumber> RetrieveAccountNumbers(string filePath)
+        {
+            var repository = new AccountNumberRepository(new BasicFile(filePath));
+            return repository.GetAccountNumbers().ToList();
+        }
+
+        private static void DieWithMessage(string errorMessage)
+        {
+            Console.WriteLine(errorMessage);
+            Environment.Exit(1);
         }
     }
 }

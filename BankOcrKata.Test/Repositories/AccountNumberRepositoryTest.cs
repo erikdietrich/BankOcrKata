@@ -36,7 +36,6 @@ namespace BankOcrKata.Test.Repositories
             [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
             public void Throws_Exception_When_File_Has_One_Line()
             {
-                
                 ExtendedAssert.Throws<InvalidAccountNumberFileException>(() => new AccountNumberRepository(File));
             }
         }
@@ -53,6 +52,30 @@ namespace BankOcrKata.Test.Repositories
                     "  |  |  |  |  |  |  |  |  |",
                     "  |  |  |  |  |  |  |  |  |",
                     string.Empty
+                };
+
+                File.Arrange(f => f.ReadAllLines()).Returns(fileLines);
+
+                var repository = new AccountNumberRepository(File);
+
+                var accountNumbers = repository.GetAccountNumbers();
+
+                Assert.AreEqual<string>("111111111", accountNumbers.First().DisplayValue);
+            }
+
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void Returns_Two_Account_Numbers_For_8_Lines_With_Two_Numbers()
+            {
+                var fileLines = new string[]
+                {
+                    "                           ",
+                    "  |  |  |  |  |  |  |  |  |",
+                    "  |  |  |  |  |  |  |  |  |",
+                    "                           ",
+                    " _  _  _  _  _  _  _  _  _ ",
+                    " _| _| _| _| _| _| _| _| _|",
+                    "|_ |_ |_ |_ |_ |_ |_ |_ |_ ",
+                    "                           "
                 };
 
                 File.Arrange(f => f.ReadAllLines()).Returns(fileLines);

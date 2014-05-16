@@ -11,10 +11,37 @@ namespace BankOcrKata.IntegrationTest
     {
         static void Main(string[] args)
         {
-            RunOnFile("allones.txt", "111111111");
+            VerifyNormalScenarios();
+            VerifyErrorScenarios();
         }
 
-        private static void RunOnFile(string fileName, string expectedOutput)
+        private static void VerifyNormalScenarios()
+        {
+            VerifyFileOrThrow("allones.txt", "111111111\r\n");
+            VerifyFileOrThrow("alltwos.txt", "222222222\r\n");
+            VerifyFileOrThrow("TwoRows.txt", "111111111\r\n222222222\r\n");
+        }
+
+        private static void VerifyErrorScenarios()
+        {
+            Verify_That_Wrong_Number_Of_Arguments_Results_In_Usage_Statement();
+            VerifyFileOrThrow("OneColumnTooWide.txt", "Invalid account number file format.\r\n");
+            //VerifyFileOrThrow("WrongRowCount.txt", "Invalid account number file format.\r\n");
+        }
+
+        public static void Verify_That_Wrong_Number_Of_Arguments_Results_In_Usage_Statement()
+        {
+            var startInfo = new ProcessStartInfo()
+            {
+                FileName = "BankOcrKata.exe",
+                UseShellExecute = false,
+                RedirectStandardOutput = true
+            };
+
+            ExecuteProcessAndCheckForExpectedOutput(startInfo, "Invalid usage.  Usage: BankOcrKata.exe {filename}\r\n");
+        }
+
+        private static void VerifyFileOrThrow(string fileName, string expectedOutput)
         {
             var startInfo = new ProcessStartInfo()
             {
@@ -24,12 +51,24 @@ namespace BankOcrKata.IntegrationTest
                 RedirectStandardOutput = true
             };
 
-            using (Process ocrDataProcessor = new Process() { StartInfo = startInfo })
+            try
+            {
+                ExecuteProcessAndCheckForExpectedOutput(startInfo, expectedOutput);
+            }
+            catch (InvalidOperationException ioe)
+            {
+                throw new InvalidOperationException(string.Format("Did not work for file {0}", fileName), ioe);
+            }
+        }
+
+        private static void ExecuteProcessAndCheckForExpectedOutput(ProcessStartInfo startInfo, string expectedOutput)
+        {
+            using (var ocrDataProcessor = new Process() { StartInfo = startInfo })
             {
                 ocrDataProcessor.Start();
                 var output = ocrDataProcessor.StandardOutput.ReadToEnd();
                 if (output != expectedOutput)
-                    throw new InvalidOperationException(string.Format("Output was not a match for file {0}", fileName));
+                    throw new InvalidOperationException();
 
                 ocrDataProcessor.WaitForExit();
             }

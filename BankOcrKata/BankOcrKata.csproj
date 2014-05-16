@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\BasicFile.cs" />
     <Compile Include="Exceptions\BadAccountNumberFormatException.cs" />
     <Compile Include="Exceptions\BadDigitFormatException.cs" />
     <Compile Include="Exceptions\InvalidAccountNumberFileException.cs" />

@@ -20,7 +20,7 @@ namespace BankOcrKata.Repositories
 
             _fileLines = file.ReadAllLines();
 
-            if (_fileLines.Length != 4)
+            if (_fileLines.Length == 0 || _fileLines.Length % 4 != 0)
                 throw new InvalidAccountNumberFileException();
         }
 
