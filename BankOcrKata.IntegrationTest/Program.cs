@@ -22,6 +22,8 @@ namespace BankOcrKata.IntegrationTest
             VerifyFileOrThrow("TwoRows.txt", "111111111\r\n222222222\r\n");
             VerifyFileOrThrow("SomeMiscellaneousNumbers.txt", "024685555\r\n123456789\r\n");
             VerifyFileOrThrow("ZerosThroughNines.txt", GenerateZeroesThroughNines());
+            VerifyFileOrThrow("NormalWorkload.txt", string.Join(string.Empty, Enumerable.Repeat(GenerateZeroesThroughNines(), 50)));
+            VerifyFileOrThrow("10xWorkload.txt", string.Join(string.Empty, Enumerable.Repeat(GenerateZeroesThroughNines(), 500)));
         }
 
         private static void VerifyErrorScenarios()
