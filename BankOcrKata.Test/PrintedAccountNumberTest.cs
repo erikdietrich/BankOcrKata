@@ -181,6 +181,21 @@ namespace BankOcrKata.Test
 
                 Assert.IsTrue(accountNumber.IsValid);
             }
+
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void Is_False_If_There_Are_Any_Illegible_Characters()
+            {
+                var linesForErrorCondition = new string[]
+                {
+                    " _  _  _  _ __  _  _  _  _ ",
+                    "  |  |  |  |  |  |  |  |  |",
+                    "  |  |  |  |  |  |  |  |  |",
+                };
+
+                var accountNumber = new PrintedAccountNumber(linesForErrorCondition);
+
+                Assert.IsFalse(accountNumber.IsValid);
+            }
         }
 
         [TestClass]

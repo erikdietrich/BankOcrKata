@@ -13,6 +13,12 @@ namespace BankOcrKata
 
         private readonly IEnumerable<PrintedDigit> _printDigits;
 
+        public string[] RawLines
+        {
+            get;
+            private set;
+        }
+
         public string DisplayValue 
         {
             get
@@ -29,14 +35,14 @@ namespace BankOcrKata
             } 
         }
 
-        public bool IsValid  { get { return IsChecksumSatisfied(_printDigits); } }
+        public bool IsValid  { get { return IsLegible && IsChecksumSatisfied(_printDigits); } }
 
         public bool IsLegible { get { return _printDigits.All(pd => pd.IsLegible);  } }
 
         public PrintedAccountNumber(string[] accountNumberLines)
         {
             ValidateOrThrow(accountNumberLines);
-
+            RawLines = accountNumberLines;
             _printDigits = ParseAccountNumberIntoDigits(accountNumberLines);
         }
 

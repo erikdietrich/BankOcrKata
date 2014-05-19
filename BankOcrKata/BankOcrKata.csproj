@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountNumberCorrector.cs" />
+    <Compile Include="NullAccountNumberCorrector.cs" />
     <Compile Include="DataAccess\BasicFile.cs" />
     <Compile Include="Exceptions\BadAccountNumberFormatException.cs" />
     <Compile Include="Exceptions\BadDigitFormatException.cs" />
@@ -50,6 +52,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AccountNumberRepository.cs" />
+    <Compile Include="Types\IAccountNumberCorrector.cs" />
     <Compile Include="Types\IFile.cs" />
   </ItemGroup>
   <ItemGroup>

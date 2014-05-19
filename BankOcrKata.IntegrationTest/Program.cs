@@ -27,6 +27,9 @@ namespace BankOcrKata.IntegrationTest
             VerifyFileOrThrow("OneIllegible.txt", "11111111? ILL\r\n");
             VerifyFileOrThrow("UserStoryThreeExample.txt", "457508000\r\n664371495 ERR\r\n86110??36 ILL\r\n");
             VerifyFileOrThrow("SecondUserStory3Example.txt", "000000051\r\n49006771? ILL\r\n1234?678? ILL\r\n");
+
+            VerifyFileWithCorrectionOrThrow("BasicCorrections.txt", "711111111\r\n777777177\r\n200800000\r\n333393333\r\n");
+            VerifyFileWithCorrectionOrThrow("AllCorrections.txt", "711111111\r\n777777177\r\n200800000\r\n333393333\r\n888888888 AMB ['888888880', '888886888', '888888988']\r\n555555555 AMB ['559555555', '555655555']\r\n666666666 AMB ['686666666', '666566666']\r\n999999999 AMB ['899999999', '993999999', '999959999']\r\n490067715 AMB ['490867715', '490067115', '490067719']\r\n123456789\r\n000000051\r\n490867715\r\n");
         }
 
         private static void VerifyErrorScenarios()
@@ -47,15 +50,20 @@ namespace BankOcrKata.IntegrationTest
                 RedirectStandardOutput = true
             };
 
-            ExecuteProcessAndCheckForExpectedOutput(startInfo, "Invalid usage.  Usage: BankOcrKata.exe {filename}\r\n");
+            ExecuteProcessAndCheckForExpectedOutput(startInfo, "Invalid usage.  Usage: BankOcrKata.exe {filename} {/c -- optional parameter to auto-correct when applicable}\r\n");
         }
 
-        private static void VerifyFileOrThrow(string fileName, string expectedOutput)
+        private static void VerifyFileWithCorrectionOrThrow(string filename, string expectedOutput)
+        {
+            VerifyFileOrThrow(filename, expectedOutput, " /c");
+        }
+
+        private static void VerifyFileOrThrow(string fileName, string expectedOutput, string autoCorrect = "")
         {
             var startInfo = new ProcessStartInfo()
             {
                 FileName = "BankOcrKata.exe",
-                Arguments = fileName,
+                Arguments = fileName + autoCorrect,
                 UseShellExecute = false,
                 RedirectStandardOutput = true
             };

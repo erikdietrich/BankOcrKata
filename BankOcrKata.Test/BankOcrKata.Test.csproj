@@ -56,7 +56,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AccountNumberCorrectorTest.cs" />
     <Compile Include="ExtendedAssert.cs" />
+    <Compile Include="NullAccountNumberCorrectorTest.cs" />
     <Compile Include="PrintedAccountNumberTest.cs" />
     <Compile Include="PrintedDigitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
