@@ -13,9 +13,25 @@ namespace BankOcrKata
 
         private readonly IEnumerable<PrintedDigit> _printDigits;
 
-        public string DisplayValue { get { return String.Join(string.Empty, _printDigits.Select(pd => pd.IntegerValue)); } }
+        public string DisplayValue 
+        {
+            get
+            {
+                var rawAccountNumber = String.Join(string.Empty, _printDigits.Select(pd => pd.IntegerValue));
+                if (rawAccountNumber.Contains("-1"))
+                {
+                    rawAccountNumber = rawAccountNumber.Replace("-1", "?");
+                    rawAccountNumber = rawAccountNumber + " ILL";
+                }
+                else if (!IsValid)
+                    rawAccountNumber = rawAccountNumber + " ERR";
+                return rawAccountNumber;
+            } 
+        }
 
         public bool IsValid  { get { return IsChecksumSatisfied(_printDigits); } }
+
+        public bool IsLegible { get { return _printDigits.All(pd => pd.IsLegible);  } }
 
         public PrintedAccountNumber(string[] accountNumberLines)
         {

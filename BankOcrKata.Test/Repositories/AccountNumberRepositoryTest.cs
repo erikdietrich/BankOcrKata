@@ -58,11 +58,11 @@ namespace BankOcrKata.Test.Repositories
         public class GetAccountNumbers : AccountNumberRepositoryTest
         {
             [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
-            public void Returns_Account_Number_Of_All_Ones_For_Four_Line_File_Of_All_Ones()
+            public void Returns_Account_Number_Of_All_Ones_And_Err_For_Four_Line_File_Of_All_Ones()
             {
                 var accountNumbers = Target.GetAccountNumbers();
 
-                Assert.AreEqual<string>("111111111", accountNumbers.First().DisplayValue);
+                Assert.AreEqual<string>("111111111 ERR", accountNumbers.First().DisplayValue);
             }
 
             [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
@@ -86,7 +86,7 @@ namespace BankOcrKata.Test.Repositories
 
                 var accountNumbers = Target.GetAccountNumbers();
 
-                Assert.AreEqual<string>("222222222", accountNumbers.Skip(1).First().DisplayValue);
+                Assert.AreEqual<string>("222222222 ERR", accountNumbers.Skip(1).First().DisplayValue);
             }
 
             [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]

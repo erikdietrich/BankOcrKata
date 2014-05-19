@@ -158,5 +158,29 @@ namespace BankOcrKata.Test
                 Assert.AreEqual<int>(9, digit.IntegerValue);
             }
         }
+
+        [TestClass]
+        public class IsLegible
+        {
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void Returns_True_When_Digit_Is_1()
+            {
+                var linesForPrintedOne = PrintedDigit.PrintedIntegerDefinitions[1];
+
+                var digit = new PrintedDigit(linesForPrintedOne);
+
+                Assert.IsTrue(digit.IsLegible);
+            }
+
+            [TestMethod, Owner("ebd"), TestCategory("Proven"), TestCategory("Unit")]
+            public void Returns_False_When_Digit_Is_Garbage()
+            {
+                var linesForGarbage = new string[] { " _ ", " _ ", " _ " };
+
+                var digit = new PrintedDigit(linesForGarbage);
+
+                Assert.IsFalse(digit.IsLegible);
+            }
+        }
     }
 }

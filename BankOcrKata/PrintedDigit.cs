@@ -70,6 +70,8 @@ namespace BankOcrKata
 
         public int IntegerValue { get; private set; }
 
+        public bool IsLegible { get { return IntegerValue != -1; } }
+
         public PrintedDigit(IList<string> inputRows)
         {
             ValidateOrThrow(inputRows);

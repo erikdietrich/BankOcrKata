@@ -17,13 +17,16 @@ namespace BankOcrKata.IntegrationTest
 
         private static void VerifyNormalScenarios()
         {
-            VerifyFileOrThrow("allones.txt", "111111111\r\n");
-            VerifyFileOrThrow("alltwos.txt", "222222222\r\n");
-            VerifyFileOrThrow("TwoRows.txt", "111111111\r\n222222222\r\n");
-            VerifyFileOrThrow("SomeMiscellaneousNumbers.txt", "024685555\r\n123456789\r\n");
+            VerifyFileOrThrow("allones.txt", "111111111 ERR\r\n");
+            VerifyFileOrThrow("alltwos.txt", "222222222 ERR\r\n");
+            VerifyFileOrThrow("TwoRows.txt", "111111111 ERR\r\n222222222 ERR\r\n");
+            VerifyFileOrThrow("SomeMiscellaneousNumbers.txt", "024685555 ERR\r\n123456789\r\n");
             VerifyFileOrThrow("ZerosThroughNines.txt", GenerateZeroesThroughNines());
             VerifyFileOrThrow("NormalWorkload.txt", string.Join(string.Empty, Enumerable.Repeat(GenerateZeroesThroughNines(), 50)));
             VerifyFileOrThrow("10xWorkload.txt", string.Join(string.Empty, Enumerable.Repeat(GenerateZeroesThroughNines(), 500)));
+            VerifyFileOrThrow("OneIllegible.txt", "11111111? ILL\r\n");
+            VerifyFileOrThrow("UserStoryThreeExample.txt", "457508000\r\n664371495 ERR\r\n86110??36 ILL\r\n");
+            VerifyFileOrThrow("SecondUserStory3Example.txt", "000000051\r\n49006771? ILL\r\n1234?678? ILL\r\n");
         }
 
         private static void VerifyErrorScenarios()
@@ -85,8 +88,8 @@ namespace BankOcrKata.IntegrationTest
         }
         private static string GenerateRepeatingIntegerLine(int digit)
         {
-            string numbers = string.Join(string.Empty, Enumerable.Repeat(digit.ToString(), PrintedAccountNumber.AccountNumberWidth));
-            return string.Format("{0}\r\n", numbers);
+            var numbers = string.Join(string.Empty, Enumerable.Repeat(digit.ToString(), PrintedAccountNumber.AccountNumberWidth));
+            return string.Format("{0}{1}\r\n", numbers, digit != 0 ? " ERR" : string.Empty);
         }
     }
 }
