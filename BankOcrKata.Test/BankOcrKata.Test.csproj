@@ -56,11 +56,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AccountNumberCorrectorTest.cs" />
+    <Compile Include="Domain\AccountNumberCorrectorTest.cs" />
     <Compile Include="ExtendedAssert.cs" />
-    <Compile Include="NullAccountNumberCorrectorTest.cs" />
-    <Compile Include="PrintedAccountNumberTest.cs" />
-    <Compile Include="PrintedDigitTest.cs" />
+    <Compile Include="Domain\NullAccountNumberCorrectorTest.cs" />
+    <Compile Include="Domain\PrintedAccountNumberTest.cs" />
+    <Compile Include="Domain\PrintedDigitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AccountNumberRepositoryTest.cs" />
   </ItemGroup>

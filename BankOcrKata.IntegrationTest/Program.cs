@@ -1,9 +1,8 @@
-﻿using System;
+﻿using BankOcrKata.Domain;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BankOcrKata.IntegrationTest
 {
@@ -94,6 +93,7 @@ namespace BankOcrKata.IntegrationTest
         {
             return string.Join(string.Empty, Enumerable.Range(0, 10).Select(i => GenerateRepeatingIntegerLine(i)));
         }
+
         private static string GenerateRepeatingIntegerLine(int digit)
         {
             var numbers = string.Join(string.Empty, Enumerable.Repeat(digit.ToString(), PrintedAccountNumber.AccountNumberWidth));

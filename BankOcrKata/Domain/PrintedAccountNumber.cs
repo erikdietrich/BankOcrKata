@@ -2,10 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BankOcrKata
+namespace BankOcrKata.Domain
 {
     public class PrintedAccountNumber
     {
@@ -61,7 +59,7 @@ namespace BankOcrKata
 
         private static string BuildRowFor(int rowIndex, int digitOffset, string[] accountNumberLines)
         {
-            string row = accountNumberLines[rowIndex];
+            var row = accountNumberLines[rowIndex];
             return row.Substring(digitOffset * PrintedDigit.DigitWidth, PrintedDigit.DigitWidth);
         }
 
@@ -76,8 +74,8 @@ namespace BankOcrKata
         {
             var collection = printDigits.Reverse().ToArray();
 
-            int sum = 0;
-            for (int index = 0; index < AccountNumberWidth; index++)
+            var sum = 0;
+            for (var index = 0; index < AccountNumberWidth; index++)
                 sum += collection[index].IntegerValue * (index + 1);
 
             return sum % 11 == 0;

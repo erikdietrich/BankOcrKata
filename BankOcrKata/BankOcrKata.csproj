@@ -41,14 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountNumberCorrector.cs" />
-    <Compile Include="NullAccountNumberCorrector.cs" />
+    <Compile Include="Domain\AccountNumberCorrector.cs" />
+    <Compile Include="Domain\NullAccountNumberCorrector.cs" />
     <Compile Include="DataAccess\BasicFile.cs" />
     <Compile Include="Exceptions\BadAccountNumberFormatException.cs" />
     <Compile Include="Exceptions\BadDigitFormatException.cs" />
     <Compile Include="Exceptions\InvalidAccountNumberFileException.cs" />
-    <Compile Include="PrintedAccountNumber.cs" />
-    <Compile Include="PrintedDigit.cs" />
+    <Compile Include="Domain\PrintedAccountNumber.cs" />
+    <Compile Include="Domain\PrintedDigit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AccountNumberRepository.cs" />

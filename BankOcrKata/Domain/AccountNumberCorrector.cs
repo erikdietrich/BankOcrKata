@@ -2,10 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BankOcrKata
+namespace BankOcrKata.Domain
 {
     public class AccountNumberCorrector : IAccountNumberCorrector
     {
@@ -54,7 +52,7 @@ namespace BankOcrKata
 
         private static IEnumerable<string> GetAlternativeStringsForLine(string line, char characterToGetRidOf, char newCharacter)
         {
-            foreach (int columnIndex in line.ToCharArray().Select((c, i) => c == characterToGetRidOf ? i : -1).Where(i => i >= 0))
+            foreach (var columnIndex in line.ToCharArray().Select((c, i) => c == characterToGetRidOf ? i : -1).Where(i => i >= 0))
                 yield return line.Remove(columnIndex, 1).Insert(columnIndex, newCharacter.ToString());
         }
     }

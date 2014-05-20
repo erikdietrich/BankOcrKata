@@ -1,12 +1,11 @@
-﻿using BankOcrKata.Exceptions;
+﻿using BankOcrKata.Domain;
+using BankOcrKata.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BankOcrKata.Test
+namespace BankOcrKata.Test.Domain
 {
     [TestClass]
     public class PrintedAccountNumberTest

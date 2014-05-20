@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BankOcrKata.Types;
+using BankOcrKata.Domain;
 
-namespace BankOcrKata.Test
+namespace BankOcrKata.Test.Domain
 {
     [TestClass]
     public class NullAccountNumberCorrectorTest
