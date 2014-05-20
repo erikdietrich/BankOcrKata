@@ -22,14 +22,7 @@ namespace BankOcrKata.Domain
             get
             {
                 var rawAccountNumber = String.Join(string.Empty, _printDigits.Select(pd => pd.IntegerValue));
-                if (rawAccountNumber.Contains("-1"))
-                {
-                    rawAccountNumber = rawAccountNumber.Replace("-1", "?");
-                    rawAccountNumber = rawAccountNumber + " ILL";
-                }
-                else if (!IsValid)
-                    rawAccountNumber = rawAccountNumber + " ERR";
-                return rawAccountNumber;
+                return FormatForSpecialCasesIfNeeded(rawAccountNumber);
             } 
         }
 
@@ -65,7 +58,7 @@ namespace BankOcrKata.Domain
 
         private static void ValidateOrThrow(string[] accountNumberLines)
         {
-            if (accountNumberLines.Length != 3 || 
+            if (accountNumberLines.Length != PrintedDigit.DigitHeight || 
                 accountNumberLines.Any(line => line.Length != AccountNumberWidth * PrintedDigit.DigitWidth))
                 throw new BadAccountNumberFormatException();
         }
@@ -79,6 +72,19 @@ namespace BankOcrKata.Domain
                 sum += collection[index].IntegerValue * (index + 1);
 
             return sum % 11 == 0;
+        }
+
+        private string FormatForSpecialCasesIfNeeded(string rawAccountNumber)
+        {
+            if (rawAccountNumber.Contains("-1"))
+            {
+                rawAccountNumber = rawAccountNumber.Replace("-1", "?");
+                rawAccountNumber = rawAccountNumber + " ILL";
+            }
+            else if (!IsValid)
+                rawAccountNumber = rawAccountNumber + " ERR";
+
+            return rawAccountNumber;
         }
     }
 }

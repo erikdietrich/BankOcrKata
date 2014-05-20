@@ -25,7 +25,7 @@ namespace BankOcrKata.Domain
             else if(corrections.Count() == 1)
                 return corrections.First().DisplayValue;
 
-            return string.Format("{0} AMB [{1}]", target.DisplayValue.Substring(0, PrintedAccountNumber.AccountNumberWidth), string.Join(", ", corrections.Select(c => string.Format("'{0}'", c.DisplayValue))));
+            return BuildOutputForMultiplePossibleCorrections(target, corrections);
         }
 
         private static IEnumerable<PrintedAccountNumber> GetAccountNumbersBySwapping(string[] rawLines, char characterToGetRidOf, char characterToTry)
@@ -54,6 +54,14 @@ namespace BankOcrKata.Domain
         {
             foreach (var columnIndex in line.ToCharArray().Select((c, i) => c == characterToGetRidOf ? i : -1).Where(i => i >= 0))
                 yield return line.Remove(columnIndex, 1).Insert(columnIndex, newCharacter.ToString());
+        }
+
+        private static string BuildOutputForMultiplePossibleCorrections(PrintedAccountNumber target, IEnumerable<PrintedAccountNumber> corrections)
+        {
+            string targetAccountNumber = target.DisplayValue.Substring(0, PrintedAccountNumber.AccountNumberWidth);
+            string formattedAlternatives = string.Join(", ", corrections.Select(c => string.Format("'{0}'", c.DisplayValue)));
+
+            return string.Format("{0} AMB [{1}]", targetAccountNumber, formattedAlternatives);
         }
     }
 }

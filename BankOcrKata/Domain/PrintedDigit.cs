@@ -82,6 +82,7 @@ namespace BankOcrKata.Domain
             var possibleDigits = Enumerable.Range(0, 10);
             var possibleDigitsAsNullables = possibleDigits.Select(i => new int?(i));
             var digitThatMatchesOrNull = possibleDigitsAsNullables.FirstOrDefault(nullableDigit => MatchesDefinedMatrixFor(nullableDigit.Value, inputRows));
+
             return digitThatMatchesOrNull ?? -1;
         }
 
@@ -89,6 +90,7 @@ namespace BankOcrKata.Domain
         {
             var actualMatrixForDigitToTry = PrintedIntegerDefinitions[digitToTry];
             var rowIndeces = Enumerable.Range(0, actualMatrixForDigitToTry.Length);
+
             return rowIndeces.All(i => actualMatrixForDigitToTry[i] == inputRows[i]);
         }
 
